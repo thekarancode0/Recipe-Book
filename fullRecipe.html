@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            width: 100vw;
+            height: 100vh;
+        }
+        .recipe{
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            /* min-width: 700px; */
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            align-items: start;
+            gap: 5px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px #43598c;
+            background-color: #0b685b;
+        }
+        .recipe>div{
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            gap: 20px;
+        }
+        .image{
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px #43598c;
+        }
+        p{
+            text-align: start;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        h2{
+            border-radius: 5px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 1.3rem;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="recipe">
+        <div>
+            <img class="image" src="" alt="">
+            <div>
+                <h2 class="name"></h2>
+                <p class="caloriesPerServing"></p>
+                <p class="cookTimeMinutes"></p>
+                <p class="cuisine"></p>
+                <p class="difficulty"></p>
+                <p class="mealType"></p>
+            </div>
+        </div>
+        <ul class="ingredients"></ul>
+        <p class="instructions"></p>
+        <p class="preparationTime"></p>
+    </div>
+
+    <script>
+        const name = document.querySelector('.name');
+        const time = document.querySelector('.cookTimeMinutes');
+        const image = document.querySelector('.image');
+        const caloriesPerServing = document.querySelector(".caloriesPerServing");
+        const cuisine = document.querySelector('.cuisine');
+        const difficulty = document.querySelector('.difficulty');
+        const mealType = document.querySelector('.mealType');
+        const instructions = document.querySelector('.instructions');
+        const recipeId = localStorage.getItem('recipeId')
+        fetch(`https://dummyjson.com/recipes/${recipeId}`)
+            .then(res => res.json())
+            .then(recipe =>{
+                console.log(recipe);
+                image.src = recipe.image;
+                name.innerHTML = recipe.name;
+                cuisine.innerHTML = `Cuisine: ${recipe.cuisine} `;
+                difficulty.innerHTML = `Difficulty: ${recipe.difficulty}`;
+                mealType.innerHTML = `Meal Type: ${recipe.mealType}`;
+                caloriesPerServing.innerHTML = `Calory Per Service: ${recipe.caloriesPerServing}`;
+                time.innerHTML = `Cooking Time: ${recipe.cookTimeMinutes} min`;
+                recipe.instructions.forEach(inst => {
+                    instructions.innerHTML += inst;
+                    instructions.innerHTML += `<br>`;
+                    
+                });
+            });
+
+    </script>
+</body>
+
+</html>
